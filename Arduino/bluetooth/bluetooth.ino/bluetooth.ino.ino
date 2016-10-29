@@ -53,7 +53,7 @@ void loop() {
 
   uint8_t i;
   
-  Serial.print("tick");
+  //Serial.print("tick");
 
   if(c == '0'){
   myMotor->run(FORWARD);
