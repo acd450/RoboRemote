@@ -42,9 +42,11 @@ void setup() {
   
 }
 
+  int speedRight = 102;
+  int speedLeft = 105;
+
 void loop() {
-  int speedRight;
-  int speedLeft;
+
   char c;
   
   if (mySerial.available()) {
