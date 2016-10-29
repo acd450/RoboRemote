@@ -43,32 +43,89 @@ void setup() {
 }
 
 void loop() {
-
+  int speedRight;
+  int speedLeft;
+  char c;
+  
   if (mySerial.available()) {
-    char c = mySerial.read();
+    c = mySerial.read();
   }
 
   uint8_t i;
   
   Serial.print("tick");
 
-//delay(5000);
-//moveFlail();
-
-if(c == '0'){
-  move1Foot();
+  if(c == '0'){
+  myMotor->run(FORWARD);
+  myOtherMotor->run(FORWARD);
+  
+    myMotor->setSpeed(0);
+    myOtherMotor->setSpeed(0);
+  
+    myMotor->run(RELEASE);
+    myOtherMotor->run(RELEASE);
+  }
+  
+  if(c != '0'){
+    myMotor->setSpeed(speedLeft);
+    myOtherMotor->setSpeed(speedRight);
+  }
+  
+  if(c == '1'){                 //Move Forward
+    myMotor->run(FORWARD);
+    myOtherMotor->run(FORWARD);
+  
+    myMotor->run(RELEASE);
+    myOtherMotor->run(RELEASE);
+  }
+  
+  if(c == '2'){                 //Move Backward
+    myMotor->run(BACKWARD);
+    myOtherMotor->run(BACKWARD);
+  
+    myMotor->run(RELEASE);
+    myOtherMotor->run(RELEASE);
+  }
+  
+  if(c == '3'){                 //Turn Right
+    myMotor->run(FORWARD);
+    myOtherMotor->run(BACKWARD);
+  
+    myMotor->run(RELEASE);
+    myOtherMotor->run(RELEASE);
+  }
+  
+  if(c == '4'){                 //Turn Left
+    myMotor->run(BACKWARD);
+    myOtherMotor->run(FORWARD);
+  
+    myMotor->run(RELEASE);
+    myOtherMotor->run(RELEASE);
+  }
+  
+  if(c == '5'){                 //Attack move 1
+    moveFlail();
+  }
+  
+  if(c == '6'){                 //Attack move 2
+    //move flail 2.0
+  }
+  
+  if(c == '7'){                 //Speed Sensitivity 1
+    speedLeft = 102;
+    speedRight = 105;
+  }
+  
+  if(c == '8'){                 //Speed Sensitivity 2
+    speedLeft = 180;
+    speedRight = 183;
+  }
+  
+  if(c == '9'){                 //Speed Sensitivity 3
+    speedLeft = 253;
+    speedRight = 255;
+  }
 }
-if(c == '1'){
-  move2Foot();
-}
-if(c == '2'){
-  move3Foot();
-}
-
-
-
-
-
 
 void move1Foot()
 {
