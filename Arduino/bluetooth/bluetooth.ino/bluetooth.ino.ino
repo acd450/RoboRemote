@@ -12,7 +12,8 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 Adafruit_DCMotor *myMotor = AFMS.getMotor(1);
 // You can also make another motor on port M2
 Adafruit_DCMotor *myOtherMotor = AFMS.getMotor(2);
-
+int speedRight;
+int speedLeft;
 SoftwareSerial mySerial(10, 11); // RX, TX
 
 void setup() {
@@ -39,18 +40,17 @@ void setup() {
   myOtherMotor->run(RELEASE);
   
   // turn on motor
-  
+ speedRight = 102;
+ speedLeft = 105;
 }
 
-  int speedRight = 102;
-  int speedLeft = 105;
-
+ 
 void loop() {
 
-  char c;
+  int c;
   
-  if (mySerial.available()) {
-    c = mySerial.read();
+  if (Serial.available() != '0') {
+    c = Serial.read();
   }
 
   uint8_t i;
@@ -58,59 +58,62 @@ void loop() {
   //Serial.print("tick");
 
   if(c == '0'){
-  myMotor->run(FORWARD);
-  myOtherMotor->run(FORWARD);
-  
-    myMotor->setSpeed(0);
-    myOtherMotor->setSpeed(0);
-  
     myMotor->run(RELEASE);
     myOtherMotor->run(RELEASE);
   }
-  
-  if(c != '0'){
-    myMotor->setSpeed(speedLeft);
-    myOtherMotor->setSpeed(speedRight);
-  }
-  
+   
   if(c == '1'){                 //Move Forward
     myMotor->run(FORWARD);
     myOtherMotor->run(FORWARD);
-  
-    myMotor->run(RELEASE);
-    myOtherMotor->run(RELEASE);
+
   }
   
   if(c == '2'){                 //Move Backward
     myMotor->run(BACKWARD);
     myOtherMotor->run(BACKWARD);
-  
-    myMotor->run(RELEASE);
-    myOtherMotor->run(RELEASE);
   }
   
   if(c == '3'){                 //Turn Right
     myMotor->run(FORWARD);
     myOtherMotor->run(BACKWARD);
-  
-    myMotor->run(RELEASE);
-    myOtherMotor->run(RELEASE);
   }
   
   if(c == '4'){                 //Turn Left
     myMotor->run(BACKWARD);
     myOtherMotor->run(FORWARD);
-  
-    myMotor->run(RELEASE);
-    myOtherMotor->run(RELEASE);
   }
   
   if(c == '5'){                 //Attack move 1
-    moveFlail();
+    myMotor->setSpeed(253);
+    myOtherMotor->setSpeed(255);
+    myMotor->run(FORWARD);
+    myOtherMotor->run(BACKWARD);
+    delay(100);
+    myMotor->run(RELEASE);
+    myOtherMotor->run(RELEASE);
+
+    myOtherMotor->run(FORWARD);
+    myMotor->run(BACKWARD);
+    delay(100);
+    myMotor->run(RELEASE);
+    myOtherMotor->run(RELEASE);
+
+    myMotor->setSpeed(speedLeft);
+    myOtherMotor->setSpeed(speedRight);
   }
   
   if(c == '6'){                 //Attack move 2
-    //move flail 2.0
+    myMotor->setSpeed(253);
+    myOtherMotor->setSpeed(255);
+    myMotor->run(FORWARD);
+    myOtherMotor->run(FORWARD);
+
+    delay(300);
+    myMotor->run(RELEASE);
+    myOtherMotor->run(RELEASE);
+
+    myMotor->setSpeed(speedLeft);
+    myOtherMotor->setSpeed(speedRight);
   }
   
   if(c == '7'){                 //Speed Sensitivity 1
@@ -127,152 +130,154 @@ void loop() {
     speedLeft = 253;
     speedRight = 255;
   }
+  myMotor->setSpeed(speedLeft);
+  myOtherMotor->setSpeed(speedRight);
 }
 
-void move1Foot()
-{
-  myMotor->run(FORWARD);
-  myOtherMotor->run(FORWARD);
-  delay(800);
-
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-}
-
-void move2Foot()
-{
-  myMotor->run(FORWARD);
-  myOtherMotor->run(FORWARD);
-  delay(1600);
-
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-}
-
-void move3Foot()
-{
-  myMotor->run(FORWARD);
-  myOtherMotor->run(FORWARD);
-  delay(2400);
-
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-}
-
-void move4Foot()
-{
-  myMotor->run(FORWARD);
-  myOtherMotor->run(FORWARD);
-  delay(3050);
-
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-}
-
-void turnLeft()
-{
-  myMotor->run(BACKWARD);
-  myOtherMotor->run(FORWARD);
-  delay(260);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-}
-
-void turnRight()
-{
-  myMotor->run(FORWARD);
-  myOtherMotor->run(BACKWARD);
-  delay(260);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-}
-
-void arcRight()
-{
-  myMotor->setSpeed(125);
-  myOtherMotor->setSpeed(80);
-  myMotor->run(FORWARD);
-  myOtherMotor->run(FORWARD);
-  delay(265*4.5);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-  myMotor->setSpeed(102);
-  myOtherMotor->setSpeed(105);
-}
-
-void moveFlail()
-{
-  myMotor->setSpeed(255);
-  myOtherMotor->setSpeed(255);
-  
-  myMotor->run(FORWARD);
-  myOtherMotor->run(BACKWARD);
-  delay(100);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-
-  myOtherMotor->run(FORWARD);
-  myMotor->run(BACKWARD);
-  delay(100);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-
-  myMotor->run(FORWARD);
-  myOtherMotor->run(BACKWARD);
-  delay(100);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-
-   myOtherMotor->run(FORWARD);
-  myMotor->run(BACKWARD);
-  delay(100);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-
-  myMotor->run(FORWARD);
-  myOtherMotor->run(BACKWARD);
-  delay(100);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-
-   myOtherMotor->run(FORWARD);
-  myMotor->run(BACKWARD);
-  delay(100);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-
-  myMotor->run(FORWARD);
-  myOtherMotor->run(BACKWARD);
-  delay(100);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-
-   myOtherMotor->run(FORWARD);
-  myMotor->run(BACKWARD);
-  delay(100);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-
-  myMotor->run(FORWARD);
-  myOtherMotor->run(BACKWARD);
-  delay(100);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-
-   myOtherMotor->run(FORWARD);
-  myMotor->run(BACKWARD);
-  delay(100);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-
-  myMotor->run(FORWARD);
-  myOtherMotor->run(BACKWARD);
-  delay(100);
-  myMotor->run(RELEASE);
-  myOtherMotor->run(RELEASE);
-
-
-  myMotor->setSpeed(102);
-  myOtherMotor->setSpeed(105);
-}
+//void move1Foot()
+//{
+//  myMotor->run(FORWARD);
+//  myOtherMotor->run(FORWARD);
+//  delay(800);
+//
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//}
+//
+//void move2Foot()
+//{
+//  myMotor->run(FORWARD);
+//  myOtherMotor->run(FORWARD);
+//  delay(1600);
+//
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//}
+//
+//void move3Foot()
+//{
+//  myMotor->run(FORWARD);
+//  myOtherMotor->run(FORWARD);
+//  delay(2400);
+//
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//}
+//
+//void move4Foot()
+//{
+//  myMotor->run(FORWARD);
+//  myOtherMotor->run(FORWARD);
+//  delay(3050);
+//
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//}
+//
+//void turnLeft()
+//{
+//  myMotor->run(BACKWARD);
+//  myOtherMotor->run(FORWARD);
+//  delay(260);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//}
+//
+//void turnRight()
+//{
+//  myMotor->run(FORWARD);
+//  myOtherMotor->run(BACKWARD);
+//  delay(260);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//}
+//
+//void arcRight()
+//{
+//  myMotor->setSpeed(125);
+//  myOtherMotor->setSpeed(80);
+//  myMotor->run(FORWARD);
+//  myOtherMotor->run(FORWARD);
+//  delay(265*4.5);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//  myMotor->setSpeed(102);
+//  myOtherMotor->setSpeed(105);
+//}
+//
+//void moveFlail()
+//{
+//  myMotor->setSpeed(255);
+//  myOtherMotor->setSpeed(255);
+//  
+//  myMotor->run(FORWARD);
+//  myOtherMotor->run(BACKWARD);
+//  delay(100);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//
+//  myOtherMotor->run(FORWARD);
+//  myMotor->run(BACKWARD);
+//  delay(100);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//
+//  myMotor->run(FORWARD);
+//  myOtherMotor->run(BACKWARD);
+//  delay(100);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//
+//  myOtherMotor->run(FORWARD);
+//  myMotor->run(BACKWARD);
+//  delay(100);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//
+//  myMotor->run(FORWARD);
+//  myOtherMotor->run(BACKWARD);
+//  delay(100);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//
+//   myOtherMotor->run(FORWARD);
+//  myMotor->run(BACKWARD);
+//  delay(100);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//
+//  myMotor->run(FORWARD);
+//  myOtherMotor->run(BACKWARD);
+//  delay(100);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//
+//   myOtherMotor->run(FORWARD);
+//  myMotor->run(BACKWARD);
+//  delay(100);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//
+//  myMotor->run(FORWARD);
+//  myOtherMotor->run(BACKWARD);
+//  delay(100);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//
+//   myOtherMotor->run(FORWARD);
+//  myMotor->run(BACKWARD);
+//  delay(100);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//
+//  myMotor->run(FORWARD);
+//  myOtherMotor->run(BACKWARD);
+//  delay(100);
+//  myMotor->run(RELEASE);
+//  myOtherMotor->run(RELEASE);
+//
+//
+//  myMotor->setSpeed(102);
+//  myOtherMotor->setSpeed(105);
+//}
 
