@@ -10,8 +10,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.acd45.roboremotev2.RemoteControl">
 
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="87dp"
+        android:id="@+id/button"
+        android:layout_marginLeft="31dp"
+        android:layout_marginStart="31dp"
+        android:bottomRightRadius="10dp"
+        android:bottomLeftRadius="10dp"
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp"
+        style="@style/AlertDialog.AppCompat"
+        android:background="@drawable/arrow_shape"
+
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Hello World!"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

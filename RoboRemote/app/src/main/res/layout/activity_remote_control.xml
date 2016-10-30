@@ -19,15 +19,49 @@
         android:layout_marginTop="28dp"
         android:id="@+id/textView2" />
 
-    <SeekBar
-        android:layout_width="fill_parent"
-        android:paddingTop="10px"
-        android:paddingBottom="10px"
-        android:paddingLeft="30px"
-        android:paddingRight="30px"
-        android:minHeight="6dip"
-        android:maxHeight="6dip"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"/>
+    <Button
+        android:text="Backward"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/button4"
+        android:layout_below="@+id/button"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_marginTop="27dp"
+        android:background="@mipmap/downarrow" />
+
+    <Button
+        android:text="Right"
+        android:layout_height="50dp"
+        android:id="@+id/button2"
+        android:background="@mipmap/right"
+        android:layout_width="50dp"
+        android:layout_alignBottom="@+id/button4"
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_toEndOf="@+id/textView2"
+        android:layout_marginBottom="36dp" />
+
+    <Button
+        android:text="Left"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/button3"
+        android:background="@mipmap/leftarrow"
+        android:layout_alignTop="@+id/button2"
+        android:layout_toLeftOf="@+id/button4"
+        android:layout_toStartOf="@+id/button4" />
+
+    <Button
+        android:text="Forward"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/button"
+        android:layout_marginRight="11dp"
+        android:layout_marginEnd="11dp"
+        android:background="@mipmap/uparrow"
+        android:onClick="onClickLeft"
+        android:layout_below="@+id/textView2"
+        android:layout_toLeftOf="@+id/button2"
+        android:layout_toStartOf="@+id/button2" />
 
 </RelativeLayout>
