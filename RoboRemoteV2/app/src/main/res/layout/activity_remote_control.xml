@@ -43,8 +43,6 @@
         android:text="Forward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-
         android:background="@drawable/arrow_shape"
         android:rotation="270"
         android:id="@+id/button2"
@@ -64,10 +62,7 @@
         android:topLeftRadius="10dp"
         android:topRightRadius="10dp"
         style="@style/AlertDialog.AppCompat"
-
-
         android:background="@drawable/arrow_shape"
-
         android:rotation="90"
         android:layout_below="@+id/button4"
         android:layout_alignLeft="@+id/button2"

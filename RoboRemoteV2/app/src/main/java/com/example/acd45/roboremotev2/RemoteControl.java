@@ -17,12 +17,17 @@ public class RemoteControl extends AppCompatActivity {
 
     private final static int REQUEST_ENABLE_BT = 1;
     BluetoothSocket bs = null;
+    ConnectedThread threadBT = new ConnectedThread(bs);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remote_control);
-        final Button button = (Button) findViewById(R.id.button);
+        final Button buttonBT = (Button) findViewById(R.id.button_c);   //BlueTooth button
+        final Button buttonF = (Button) findViewById(R.id.button2);     //Forward button
+        final Button buttonB = (Button) findViewById(R.id.button1);     //Backward button
+        final Button buttonL = (Button) findViewById(R.id.button4);     //Left button
+        final Button buttonR = (Button) findViewById(R.id.button);      //Right button
         final SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar2);
 
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -35,9 +40,9 @@ public class RemoteControl extends AppCompatActivity {
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
 
-        button.setOnClickListener(new View.OnClickListener(){
+        buttonBT.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                ConnectedThread threadBT = new ConnectedThread(bs);
+
             }
         });
 
@@ -45,7 +50,9 @@ public class RemoteControl extends AppCompatActivity {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-               //change sensitivity here
+               if(progress < 34){
+                   //threadBT.
+               }
             }
 
             @Override
