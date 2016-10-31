@@ -27,7 +27,7 @@ public class ConnectedThread extends Thread{
         mmOutStream = tmpOut;
     }
 
-    public void write(byte[] bytes){
+    public void write(byte bytes){
         try {
             mmOutStream.write(bytes);
         } catch(IOException e){}

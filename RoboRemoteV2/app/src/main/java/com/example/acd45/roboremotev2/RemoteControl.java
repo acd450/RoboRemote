@@ -28,7 +28,11 @@ public class RemoteControl extends AppCompatActivity {
         final Button buttonB = (Button) findViewById(R.id.button1);     //Backward button
         final Button buttonL = (Button) findViewById(R.id.button4);     //Left button
         final Button buttonR = (Button) findViewById(R.id.button);      //Right button
+        final Button buttonAttack = (Button) findViewById(R.id.button3); //Attack 1
+        final Button buttonAttack2 = (Button) findViewById(R.id.button5); //Attack 2
         final SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar2);
+        final byte[] commands = new byte[] { (byte) 0, (byte) 1, (byte)2,
+                (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9};
 
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
@@ -45,6 +49,43 @@ public class RemoteControl extends AppCompatActivity {
 
             }
         });
+
+        buttonF.setOnClickListener(new Button.OnClickListener() {
+                                       public void onClick(View v) {
+                                           threadBT.write(commands[1]);
+                                       }
+        });
+
+        buttonB.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                threadBT.write(commands[2]);
+            }
+        });
+
+        buttonL.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                threadBT.write(commands[4]);
+            }
+        });
+
+        buttonR.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                threadBT.write(commands[3]);
+            }
+        });
+
+        buttonAttack.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                threadBT.write(commands[5]);
+            }
+        });
+
+        buttonAttack2.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                threadBT.write(commands[6]);
+            }
+        });
+
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
