@@ -1,5 +1,6 @@
 package com.example.acd45.roboremotev2;
 
+import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.io.OutputStream;
 public class ConnectedThread extends Thread{
 
     private final BluetoothSocket mmSocket;
+
     //private final InputStream mmInStream;
     private final OutputStream mmOutStream;
 
