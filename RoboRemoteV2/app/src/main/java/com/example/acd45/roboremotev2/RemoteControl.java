@@ -21,11 +21,14 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
+import android.app.Activity;
+import android.media.MediaPlayer;
+
 public class RemoteControl extends AppCompatActivity {
 
     private final static int REQUEST_ENABLE_BT = 1;
     final BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
+    MediaPlayer mp = null;
 
 
 
@@ -44,6 +47,9 @@ public class RemoteControl extends AppCompatActivity {
         final SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar2);
         final byte[] commands = new byte[] { (byte) 0, (byte) 1, (byte)2,
                 (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9};
+
+        //mediaplayer
+
 
         if (mBluetoothAdapter == null) {
             // Device does not support Bluetooth
@@ -90,12 +96,15 @@ public class RemoteControl extends AppCompatActivity {
         buttonAttack.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 threadBT.write(commands[5]);
+                mp = MediaPlayer.create(this, raw.uav);
+                mp.start();
             }
         });
 
         buttonAttack2.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 threadBT.write(commands[6]);
+                mp = MediaPlayer.create(this, raw.tangodown);
             }
         });
 
