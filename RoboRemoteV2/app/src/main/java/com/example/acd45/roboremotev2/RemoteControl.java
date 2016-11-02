@@ -1,5 +1,6 @@
 package com.example.acd45.roboremotev2;
 
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
@@ -28,15 +29,15 @@ import static com.example.acd45.roboremotev2.R.*;
 public class RemoteControl extends AppCompatActivity {
 
     private final static int REQUEST_ENABLE_BT = 1;
-    final byte[] commands = new byte[] { (byte) 0, (byte) 1, (byte)2,
+    final byte[] commands = new byte[] { (byte) 1, (byte) 1, (byte)2,
             (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9};
     int command = 0;
 
     MediaPlayer mp = null;
     private Context context;
-
+    private ProgressDialog progress;
     String address = "98:76:B6:00:64:4A";
-
+    BluetoothService BT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class RemoteControl extends AppCompatActivity {
         context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_remote_control);
+        BT = new BluetoothService();
 
 
         final Button buttonBT = (Button) findViewById(id.button_c);   //BlueTooth button
@@ -54,7 +56,8 @@ public class RemoteControl extends AppCompatActivity {
         final Button buttonAttack = (Button) findViewById(id.button3); //Attack 1
         final Button buttonAttack2 = (Button) findViewById(id.button5); //Attack 2
         final SeekBar seekBar = (SeekBar) findViewById(id.seekBar2);
-        final ConnectBT BT = new ConnectBT();
+        //final ConnectBT BT = new ConnectBT();
+
 
         //mediaplayer
 
@@ -70,6 +73,22 @@ public class RemoteControl extends AppCompatActivity {
 
         buttonBT.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+                BT.btConnect(address, new BluetoothService.BluetoothConnectCallback() {
+                    @Override
+                    public void doOnConnect() {
+
+                    }
+
+                    @Override
+                    public void doOnConnectionFailed() {
+
+                    }
+
+                    @Override
+                    public void doOnDisconnect() {
+
+                    }
+                });
 //                try {
 //                        ConnectBT();
 ////                    System.out.print("got the address ");
@@ -87,13 +106,15 @@ public class RemoteControl extends AppCompatActivity {
 
             buttonF.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
-                        if(event.getAction() == MotionEvent.ACTION_UP) {
+                        if(event.getAction() == MotionEvent.ACTION_DOWN) {
                             command = 1;
-                            BT.sendMessage();
+                            //BT.sendMessage();
+                            BT.writeData("1".getBytes());
                         }
-                        else if (event.getAction() == MotionEvent.ACTION_CANCEL){
+                        else if (event.getAction() == MotionEvent.ACTION_UP){
                             command = 0;
-                            BT.sendMessage();
+                            //BT.sendMessage();
+                            BT.writeData("0".getBytes());
                         }
                     return true;
                 }
@@ -102,13 +123,15 @@ public class RemoteControl extends AppCompatActivity {
         buttonB.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                    if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getAction() == MotionEvent.ACTION_DOWN) {
                         command = 2;
-                        BT.sendMessage();
+                        //BT.sendMessage();
+                        BT.writeData("2".getBytes());
                     }
-                    else if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    else if (event.getAction() == MotionEvent.ACTION_UP) {
                         command = 0;
-                        BT.sendMessage();
+                        //BT.sendMessage();
+                        BT.writeData("0".getBytes());
                     }
                 return true;
             }
@@ -117,13 +140,15 @@ public class RemoteControl extends AppCompatActivity {
         buttonL.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                    if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getAction() == MotionEvent.ACTION_DOWN) {
                         command = 4;
-                        BT.sendMessage();
+                        //BT.sendMessage();
+                        BT.writeData("4".getBytes());
                     }
-                    else if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    else if (event.getAction() == MotionEvent.ACTION_UP) {
                         command = 0;
-                        BT.sendMessage();
+                        //BT.sendMessage();
+                        BT.writeData("0".getBytes());
                     }
                 return true;
             }
@@ -132,13 +157,15 @@ public class RemoteControl extends AppCompatActivity {
         buttonR.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                    if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getAction() == MotionEvent.ACTION_DOWN) {
                         command = 3;
-                        BT.sendMessage();
+                        //BT.sendMessage();
+                        BT.writeData("3".getBytes());
                     }
-                    else if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    else if (event.getAction() == MotionEvent.ACTION_UP) {
                         command = 0;
-                        BT.sendMessage();
+                        //BT.sendMessage();
+                        BT.writeData("0".getBytes());
                     }
                 return true;
             }
@@ -148,15 +175,17 @@ public class RemoteControl extends AppCompatActivity {
         buttonAttack.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                    if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getAction() == MotionEvent.ACTION_DOWN) {
                         command = 5;
-                        BT.sendMessage();
+                        //BT.sendMessage();
+                        BT.writeData("5".getBytes());
                         mp = MediaPlayer.create(context, R.raw.uav);
                         mp.start();
                     }
-                    else if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    else if (event.getAction() == MotionEvent.ACTION_UP) {
                         command = 0;
-                        BT.sendMessage();
+                        //BT.sendMessage();
+                        BT.writeData("0".getBytes());
                     }
                 return true;
             }
@@ -165,15 +194,17 @@ public class RemoteControl extends AppCompatActivity {
         buttonAttack2.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                    if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getAction() == MotionEvent.ACTION_DOWN) {
                         command = 6;
-                        BT.sendMessage();
+                        //BT.sendMessage();
+                        BT.writeData("6".getBytes());
                         mp = MediaPlayer.create(context, R.raw.tangodown);
                         mp.start();
                     }
-                    else if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    else if (event.getAction() == MotionEvent.ACTION_UP) {
                         command = 0;
-                        BT.sendMessage();
+                        //BT.sendMessage();
+                        BT.writeData("0".getBytes());
                     }
                 return true;
             }
@@ -186,13 +217,16 @@ public class RemoteControl extends AppCompatActivity {
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         if (progress < 34) {
                             command = 7;
-                            BT.sendMessage();
+                            //BT.sendMessage();
+                            BT.writeData("7".getBytes());
                         } else if (progress < 67 && progress > 33) {
                             command = 8;
-                            BT.sendMessage();
+                            //BT.sendMessage();
+                            BT.writeData("8".getBytes());
                         } else {
                             command = 9;
-                            BT.sendMessage();
+                            //BT.sendMessage();
+                            BT.writeData("9".getBytes());
                         }
                 }
 
@@ -219,11 +253,6 @@ public class RemoteControl extends AppCompatActivity {
 
         //System.out.print("hello ");
         private boolean ConnectSuccess = true; //if it's here, it's almost connected
-        @Override
-        protected void onPreExecute()
-        {
-            //progress = ProgressDialog.show(ledControl.this, "Connecting...", "Please wait!!!");  //show a progress dialog
-        }
         @Override
         protected Void doInBackground(Void... devices) //while the progress dialog is shown, the connection is done in background
         {
@@ -257,7 +286,7 @@ public class RemoteControl extends AppCompatActivity {
                 msg("Connected.");
                 isBtConnected = true;
             }
-            //progress.dismiss();
+            progress.dismiss();
         }
 
         private void msg(String s)
